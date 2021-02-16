@@ -36,8 +36,12 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("1- Cargar información de los videos en el catálogo")
+    print("2- Videos en tendencia con más views (País y Categoría)")
+    print("3- Video con record de tendencia (País)")
+    print("4- Video con record de tendencia (Categoría)")
+    print("5- Videos con más likes (País y Categoría)")
+    print("0- Salir de la aplicación.")
 
 
 def initCatalog():
@@ -55,7 +59,7 @@ def loadData(catalog):
 def show_categories(catalog):
     
     a="Id"
-    b="Name Category"
+    b="Nombre de Categoría"
     
     formato="|{}|{}|\n".format(a.center(6),b.center(26))+("-"*36)+"\n"
 
@@ -97,19 +101,20 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
+
+        print("Cargando información de los archivos ....\n") 
         catalog = initCatalog()
         loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
-        show_categories(catalog)
+
+        print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         
         print("Información del primer video cargado:  ")
-        print("| Título: {} | Nombre del canal: {} | Fecha en tendencia: {} | País: {} | Visitas: {} | Likes: {} | Dislikes: {}".format(*FirstVideoData(catalog)))
+        print("| Título: {} | Nombre del canal: {} | Fecha en tendencia: {} | País: {} | Visitas: {} | Likes: {} | Dislikes: {}\n".format(*FirstVideoData(catalog)))
+
+        print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
+        show_categories(catalog)
 
 
-
-        
 
     elif int(inputs[0]) == 2:
         pass
