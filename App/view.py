@@ -39,7 +39,19 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- ")
 
-catalog = None
+
+def initCatalog():
+    """
+    Inicializa el catalogo de videos
+    """
+    return controller.initCatalog()
+
+def loadData(catalog):
+    """
+    Carga los videos en la estructura de datos
+    """
+    controller.loadData(catalog)
+
 
 """
 Menu principal
@@ -49,6 +61,10 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Libros cargados: ' + str(lt.size(catalog['videos'])))
+
 
     elif int(inputs[0]) == 2:
         pass
