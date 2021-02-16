@@ -41,6 +41,18 @@ def initCatalog():
 
 # Funciones para la carga de datos
 
+def loadData(catalog):
+    """
+    Carga los datos de los archivos y cargar los datos en la
+    estructura de datos
+    """
+    loadCategories(catalog)
+    loadVideos(catalog)
+
+
+
+
+
 def loadCategories(catalog):
     """
     Carga todas los categories del archivo y las agrega a la lista de categories
