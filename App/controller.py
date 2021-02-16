@@ -38,16 +38,19 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
+
+# Funciones para la carga de datos
+
 def loadCategories(catalog):
     """
     Carga todas los categories del archivo y las agrega a la lista de categories
     """
 
     category_file=cf.data_dir +"category-id.csv"
-    input_file=csv.DictReader(open(tagsfile, encoding='utf-8'))
-    for category in category_file:
+    input_file=csv.DictReader(open(category_file, encoding='utf-8'))
+    for category in input_file:
         model.addCategory(catalog, category)
-# Funciones para la carga de datos
+
 
 
 def loadVideos(catalog):
