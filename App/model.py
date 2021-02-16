@@ -39,7 +39,18 @@ los mismos.
 
 # Funciones para agregar informacion al catalogo
 
+def addVideo(catalog, video):
+    # Se adiciona el video a la lista de videos
+    lt.addLast(catalog['videos'], video)
+    # Se obtienen los id's de las categorías relacionadas al video
+    categories_ids = video['category_id'].split(",")
+    # Cada categoría, se crea en la lista de videos del catalogo, y se
+    # crea un video en la lista de dicha categoría (apuntador al video)
+    for category_id in categories_ids:
+        addVideoCategory(catalog, category_id.strip(), video)
+
 # Funciones para creacion de datos
+
 
 # Funciones de consulta
 
