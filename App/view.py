@@ -52,6 +52,32 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
+def show_categories(catalog):
+    
+    a="Id"
+    b="Name Category"
+    
+    formato="|{}|{}|\n".format(a.center(6),b.center(26))
+
+    texto=("-"*36)+"\n"+formato
+    
+    actual_node= catalog["categories"]["first"]
+
+    for i in range(lt.size(catalog["categories"])):
+        actual_node_id=actual_node["info"]["category_id"]
+        actual_node_name=actual_node["info"]["name"]
+
+        formato="|{}|{}|\n".format(actual_node_id.center(6),actual_node_name.center(26))+("-"*36)+"\n"
+
+        texto+=formato
+
+        actual_node=actual_node["next"]
+ 
+
+
+
+    print(texto)
+
 
 """
 Menu principal
@@ -65,7 +91,7 @@ while True:
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
-
+        show_categories(catalog)
 
     elif int(inputs[0]) == 2:
         pass
