@@ -67,11 +67,12 @@ def addVideo(catalog, video):
     categories_ids = video['category_id'].split(",")
     # Cada categoría, se crea en la lista de videos del catalogo, y se
     # crea un video en la lista de dicha categoría (apuntador al video)
+
+    """
     for category_id in categories_ids:
         addVideoCategory(catalog, category_id.strip(), video)
-
-# Funciones para creacion de datos
-
+    """
+        
 def addCategory(catalog, category):
     """
     Adiciona unas category a la lista de categories
@@ -84,6 +85,8 @@ def addVideoCategory(catalog, video_category):
 
     t= newVideoCategory(video_category["category_id"], video_category["video_category_id"])
     lt.addLast(catalog["videos_categories"], t)
+
+
 # Funciones para creacion de datos
 
 def newCategory(name, id):
@@ -104,7 +107,13 @@ def newVideoCategory(category_id,video_category_id):
 
 
     video_category={"category_id":category_id , "video_category_id": video_category_id}
+
+
     return video_category
+
+
+# Funciones para creacion de datos
+
 
 # Funciones de consulta
 
