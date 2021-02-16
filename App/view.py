@@ -78,6 +78,17 @@ def show_categories(catalog):
 
     print(texto)
 
+def FirstVideoData(catalog):
+
+    title = catalog["videos"]["first"]["info"]["title"]
+    channel_title = catalog["videos"]["first"]["info"]["channel_title"]
+    trending_date = catalog["videos"]["first"]["info"]["trending_date"]
+    country = catalog["videos"]["first"]["info"]["country"]
+    views = catalog["videos"]["first"]["info"]["views"]
+    likes = catalog["videos"]["first"]["info"]["likes"]
+    dislikes = catalog["videos"]["first"]["info"]["dislikes"]
+
+    return (title, channel_title, trending_date, country, views, likes, dislikes)
 
 """
 Menu principal
@@ -91,7 +102,17 @@ while True:
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
+<<<<<<< HEAD
         show_categories(catalog)
+=======
+        
+        print("Información del primer video cargado:  ")
+        print("| Título: {} | Nombre del canal: {} | Fecha en tendencia: {} | País: {} | Visitas: {} | Likes: {} | Dislikes: {}".format(*FirstVideoData(catalog)))
+
+
+>>>>>>> 8830f5dc0016c38428551033e2a5c6bf4aeadd1f
+
+        
 
     elif int(inputs[0]) == 2:
         pass
@@ -99,3 +120,4 @@ while True:
     else:
         sys.exit(0)
 sys.exit(0)
+
