@@ -57,7 +57,7 @@ def show_categories(catalog):
     a="Id"
     b="Name Category"
     
-    formato="|{}|{}|\n".format(a.center(6),b.center(26))
+    formato="|{}|{}|\n".format(a.center(6),b.center(26))+("-"*36)+"\n"
 
     texto=("-"*36)+"\n"+formato
     
