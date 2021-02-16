@@ -50,7 +50,7 @@ def newCatalog():
             "categories": None,
             "videos_categories":None, }
 
-    catalog["videos"]=lt.newList
+    catalog["videos"]=lt.newList()
     catalog["id_videos"]=lt.newList("ARRAY_LIST",None)
     catalog["categories"]=lt.newList("SINGLE_LINKED",None)
     catalog["videos_categories"]=lt.newList("SINGLE_LINKED")
@@ -79,7 +79,7 @@ def addCategory(catalog, category):
     Adiciona unas category a la lista de categories
     """
 
-    t=newCategory(category["name"], category["category_id"])
+    t=newCategory(category["name"], category["id"])
     lt.addLast(catalog["categories"], t)
 
 def addVideoCategory(catalog, video_category):
