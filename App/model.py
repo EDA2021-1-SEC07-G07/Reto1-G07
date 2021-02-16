@@ -61,6 +61,7 @@ def newCatalog():
 # Funciones para agregar informacion al catalogo
 
 def addVideo(catalog, video):
+    
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['videos'], video)
     # Se obtienen los id's de las categorías relacionadas al video

@@ -38,6 +38,15 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
+def loadCategories(catalog):
+    """
+    Carga todas los categories del archivo y las agrega a la lista de categories
+    """
+
+    category_file=cf.data_dir +"category-id.csv"
+    input_file=csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for category in category_file:
+        model.addCategory(catalog, category)
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento
