@@ -77,10 +77,9 @@ def show_categories(catalog):
 
         actual_node= lt.getElement(catalog["categories"], i+1)
  
-
-
-
     print(texto)
+
+
 
 def FirstVideoData(catalog):
 
@@ -121,6 +120,20 @@ def askListType():
     return list_type
 
 
+def askSampleList(catalog):
+    """Le pregunta al usuario respecto al tamaño de la muestra sobre la que se desea aplicar una función."""
+
+    n_sample = input("Ingrese el tamaño de la muestra sobre la que desea indagar (recuerde que este no debe exceder la cantidad de videos en el catálogo): ")
+
+    if int(n_sample) > lt.size(catalog['videos']):
+        
+        print("El número de muestra ha superado el tamaño de la lista, se procederá con la cantidad máxima de videos dentro del catálogo: {}".format(lt.size(catalog['videos'])))
+
+        n_sample = lt.size(catalog['videos'])
+        
+    return int(n_sample)
+
+
 def askSortingAlgorithm():
     """Le pregunta al usuario respecto a que tipo de algoritmo de ordenamiento desea usar."""
 
@@ -134,7 +147,7 @@ def askSortingAlgorithm():
     seleccion_algoritmo = input('Seleccione una opción para continuar\n')
     if int( seleccion_algoritmo[0]) == 1:
 
-        sorting_algorithm == "SELECTION"
+        sorting_algorithm = "SELECTION"
     
     elif int(seleccion_algoritmo[0]) == 2:
 
@@ -148,6 +161,14 @@ def askSortingAlgorithm():
         sys.exit(0)
 
     return sorting_algorithm
+
+
+def sortVideos(catalog, size, sorting_algorithm):
+    """
+    Organiza los videos bajo un algoritmo determinado
+    """
+    return controller.sortVideos(catalog, size, sorting_algorithm)
+
 
 
 """
@@ -176,12 +197,16 @@ while True:
 
     elif int(inputs[0]) == 2:
 
+        n_sample = askSampleList(catalog)
+
         sorting_algorithm = askSortingAlgorithm()
     
+        print("Buscando el top {} de videos tendencia con más views organizados mediante {} SORTING...".format(n_sample, sorting_algorithm))
 
-
-
+        top_views = sortVideos(catalog, n_sample, sorting_algorithm)
         
+        print(top_views[0])
+        print(top_views[1])
 
     else:
         sys.exit(0)

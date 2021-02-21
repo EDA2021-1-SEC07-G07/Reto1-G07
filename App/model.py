@@ -26,8 +26,11 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import shellsort 
+from DISClib.Algorithms.Sorting import selectionsort 
+from DISClib.Algorithms.Sorting import insertionsort 
 assert cf
 
 """
@@ -130,3 +133,22 @@ def cmpVideosByViews(video1, video2):
 
 
 # Funciones de ordenamiento
+
+def sortVideos(catalog, size, sorting_algorithm):
+    sub_list = lt.subList(catalog['videos'], 0, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+
+    if sorting_algorithm == "SHELL":
+        sorted_list = shellsort.sort(sub_list, cmpVideosByViews)
+
+    elif sorting_algorithm == "SELECTION":
+        sorted_list = selectionsort.sort(sub_list, cmpVideosByViews)
+
+    elif sorting_algorithm == "INSERTION":
+        sorted_list = insertionsort.sort(sub_list, cmpVideosByViews)
+
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list

@@ -77,4 +77,11 @@ def loadVideos(catalog):
 
 # Funciones de ordenamiento
 
+def sortVideos(catalog, size, sorting_algorithm):
+    """
+    Ordena los videos por número de views
+    """
+    return model.sortVideos(catalog, size, sorting_algorithm)
+
+
 # Funciones de consulta sobre el catálogo
