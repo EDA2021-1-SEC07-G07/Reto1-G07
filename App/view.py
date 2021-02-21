@@ -44,11 +44,11 @@ def printMenu():
     print("0- Salir de la aplicación.")
 
 
-def initCatalog():
+def initCatalog(list_type):
     """
     Inicializa el catalogo de videos
     """
-    return controller.initCatalog()
+    return controller.initCatalog(list_type)
 
 def loadData(catalog):
     """
@@ -65,17 +65,17 @@ def show_categories(catalog):
 
     texto=("-"*36)+"\n"+formato
     
-    actual_node= catalog["categories"]["first"]
+    actual_node= lt.firstElement(catalog["categories"])
 
-    for i in range(lt.size(catalog["categories"])):
-        actual_node_id=actual_node["info"]["category_id"]
-        actual_node_name=actual_node["info"]["name"]
+    for i in range(1,lt.size(catalog["categories"])):
+        actual_node_id=actual_node["category_id"]
+        actual_node_name=actual_node["name"]
 
         formato="|{}|{}|\n".format(actual_node_id.center(6),actual_node_name.center(26))+("-"*36)+"\n"
 
         texto+=formato
 
-        actual_node=actual_node["next"]
+        actual_node= lt.getElement(catalog["categories"], i+1)
  
 
 
@@ -84,15 +84,71 @@ def show_categories(catalog):
 
 def FirstVideoData(catalog):
 
-    title = catalog["videos"]["first"]["info"]["title"]
-    channel_title = catalog["videos"]["first"]["info"]["channel_title"]
-    trending_date = catalog["videos"]["first"]["info"]["trending_date"]
-    country = catalog["videos"]["first"]["info"]["country"]
-    views = catalog["videos"]["first"]["info"]["views"]
-    likes = catalog["videos"]["first"]["info"]["likes"]
-    dislikes = catalog["videos"]["first"]["info"]["dislikes"]
+   
+    first_video = lt.firstElement(catalog["videos"])
+    title =  first_video["title"]
+    channel_title =  first_video["channel_title"]
+    trending_date =  first_video["trending_date"]
+    country =  first_video["country"]
+    views =  first_video["views"]
+    likes =  first_video["likes"]
+    dislikes =  first_video["dislikes"]
 
     return (title, channel_title, trending_date, country, views, likes, dislikes)
+
+def askListType():
+    """Le pregunta al usuario respecto al tipo de lista que este desee usar."""
+
+    list_type = None
+
+    print("Elija con que tipo de lista desea que se cargue el catálogo de videos:\n")
+    print("1- Array List")
+    print("2- Single Linked List")
+
+    seleccion_lista = input('Seleccione una opción para continuar\n')
+
+    if int(seleccion_lista[0]) == 1:
+        
+        list_type = "ARRAY_LIST"
+
+    elif int(seleccion_lista[0]) == 2:
+
+        list_type = "LINKED_LIST"
+
+    else:
+        sys.exit(0)
+
+    return list_type
+
+
+def askSortingAlgorithm():
+    """Le pregunta al usuario respecto a que tipo de algoritmo de ordenamiento desea usar."""
+
+    sorting_algorithm = None
+
+    print("Elija con que algoritmo de ordenamiento iterativo desea realizar su busqueda:\n")
+    print("1- Selection Sort")
+    print("2- Insertion Sort")
+    print("3- Shell Sort")
+
+    seleccion_algoritmo = input('Seleccione una opción para continuar\n')
+    if int( seleccion_algoritmo[0]) == 1:
+
+        sorting_algorithm == "SELECTION"
+    
+    elif int(seleccion_algoritmo[0]) == 2:
+
+        sorting_algorithm = "INSERTION"
+
+    elif int(seleccion_algoritmo[0]) == 3:
+
+        sorting_algorithm = "SHELL"
+
+    else:
+        sys.exit(0)
+
+    return sorting_algorithm
+
 
 """
 Menu principal
@@ -102,8 +158,10 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
 
+        list_type = askListType()
+
         print("Cargando información de los archivos ....\n") 
-        catalog = initCatalog()
+        catalog = initCatalog(list_type)
         loadData(catalog)
 
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
@@ -117,7 +175,13 @@ while True:
 
 
     elif int(inputs[0]) == 2:
-        pass
+
+        sorting_algorithm = askSortingAlgorithm()
+    
+
+
+
+        
 
     else:
         sys.exit(0)

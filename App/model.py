@@ -37,7 +37,7 @@ los mismos.
 
 # Construccion de modelos
 
-def newCatalog():
+def newCatalog(list_type):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los libros, adicionalmente, crea una lista vacia para los autores,
@@ -51,9 +51,9 @@ def newCatalog():
             "videos_categories":None, }
 
     catalog["videos"]=lt.newList()
-    catalog["id_videos"]=lt.newList("ARRAY_LIST",None)
-    catalog["categories"]=lt.newList("SINGLE_LINKED",None)
-    catalog["videos_categories"]=lt.newList("SINGLE_LINKED")
+    catalog["id_videos"]=lt.newList(list_type,None)
+    catalog["categories"]=lt.newList(list_type,None)
+    catalog["videos_categories"]=lt.newList(list_type)
     return catalog
 
 
@@ -119,5 +119,14 @@ def newVideoCategory(category_id,video_category_id):
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def cmpVideosByViews(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'views' de video1 son menores que los del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'views'
+    video2: informacion del segundo video que incluye su valor 'views'
+    """
+    return (float(video1['views']) < float(video2['views']))
+
 
 # Funciones de ordenamiento
