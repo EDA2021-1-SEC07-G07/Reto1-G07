@@ -205,7 +205,7 @@ while True:
         
         execution_time = top_views[0]
        
-        print("El tiempo total de ejecución con el algoritmo {} SORT y el tipo de lista {} fue de: {}".format(sorting_algorithm, list_type,execution_time))
+        print("El tiempo total de ejecución con el algoritmo {} SORT y el tipo de lista {} fue de: {} ms".format(sorting_algorithm, list_type,execution_time))
 
     else:
         sys.exit(0)
