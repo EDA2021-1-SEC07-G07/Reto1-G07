@@ -169,8 +169,6 @@ def sortVideos(catalog, size, sorting_algorithm):
     """
     return controller.sortVideos(catalog, size, sorting_algorithm)
 
-
-
 """
 Menu principal
 """
