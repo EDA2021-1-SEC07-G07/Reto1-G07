@@ -139,26 +139,50 @@ def askSortingAlgorithm():
 
     sorting_algorithm = None
 
-    print("Elija con que algoritmo de ordenamiento iterativo desea realizar su busqueda:\n")
-    print("1- Selection Sort")
-    print("2- Insertion Sort")
-    print("3- Shell Sort")
 
-    seleccion_algoritmo = input('Seleccione una opción para continuar\n')
-    if int( seleccion_algoritmo[0]) == 1:
+    print("¿Con que tipo de algoritmo desea realizar su búsqueda?")
+    print("1- Algoritmo Iterativo")
+    print("2- Algoritmo Recursivo")
+    tipo_algoritmo = input('Seleccione una opción para continuar\n')
 
-        sorting_algorithm = "SELECTION"
-    
-    elif int(seleccion_algoritmo[0]) == 2:
+    if int(tipo_algoritmo[0]) == 1:
 
-        sorting_algorithm = "INSERTION"
+        print("Elija con que algoritmo de ordenamiento iterativo desea realizar su busqueda:\n")
+        print("1- Selection Sort")
+        print("2- Insertion Sort")
+        print("3- Shell Sort")
 
-    elif int(seleccion_algoritmo[0]) == 3:
+        seleccion_algoritmo = input('Seleccione una opción para continuar\n')
+        if int( seleccion_algoritmo[0]) == 1:
 
-        sorting_algorithm = "SHELL"
+            sorting_algorithm = "SELECTION"
 
-    else:
-        sys.exit(0)
+        elif int(seleccion_algoritmo[0]) == 2:
+
+            sorting_algorithm = "INSERTION"
+
+        elif int(seleccion_algoritmo[0]) == 3:
+
+            sorting_algorithm = "SHELL"
+
+        else:
+            sys.exit(0)
+
+
+    elif int(tipo_algoritmo[0]) == 2:
+        print("Elija con que algoritmo de ordenamiento recursivo desea realizar su busqueda:\n")
+        print("1- Merge Sort")
+        print("2- Quick Sort")
+        seleccion_algoritmo = input('Seleccione una opción para continuar\n')
+
+        if int( seleccion_algoritmo[0]) == 1:
+            sorting_algorithm = "MERGE"
+
+        elif int(seleccion_algoritmo[0]) == 2:
+            sorting_algorithm = "QUICK"
+
+        else:
+            sys.exit(0)
 
     return sorting_algorithm
 
