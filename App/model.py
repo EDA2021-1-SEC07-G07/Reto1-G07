@@ -28,11 +28,8 @@
 import config as cf
 import time
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort 
-from DISClib.Algorithms.Sorting import selectionsort 
-from DISClib.Algorithms.Sorting import insertionsort 
 from DISClib.Algorithms.Sorting import mergesort 
-from DISClib.Algorithms.Sorting import quicksort 
+
 assert cf
 
 """
@@ -42,7 +39,7 @@ los mismos.
 
 # Construccion de modelos
 
-def newCatalog(list_type):
+def newCatalog(list_type = "ARRAY_LIST"):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los libros, adicionalmente, crea una lista vacia para los autores,
@@ -128,7 +125,7 @@ def getVideosbyCategory(catalog, category_name):
     """
 
     videos = catalog['videos']
-    filtered_videos = lt.newList()
+    filtered_videos = lt.newList("ARRAY_LIST")
 
     for video in lt.iterator(videos):
         
@@ -144,8 +141,8 @@ def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
         determinadas."""
 
 
-    filtered_catalog = lt.newList()
-    filtered_catalog["videos"] = lt.newList()
+    filtered_catalog = lt.newList("ARRAY_LIST")
+    filtered_catalog["videos"] = lt.newList("ARRAY_LIST")
 
     for video in lt.iterator(catalog['videos']):
         
@@ -169,30 +166,18 @@ def cmpVideosByViews(video1, video2):
     video1: informacion del primer video que incluye su valor 'views'
     video2: informacion del segundo video que incluye su valor 'views'
     """
-    return (float(video1['views']) < float(video2['views']))
+    return (float(video1['views']) > float(video2['views']))
 
 
 # Funciones de ordenamiento
 
-def sortVideos(catalog, size, sorting_algorithm):
+def sortVideos(catalog, size):
     sub_list = lt.subList(catalog['videos'], 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
 
-    if sorting_algorithm == "SHELL":
-        sorted_list = shellsort.sort(sub_list, cmpVideosByViews)
+    sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
 
-    elif sorting_algorithm == "SELECTION":
-        sorted_list = selectionsort.sort(sub_list, cmpVideosByViews)
-
-    elif sorting_algorithm == "INSERTION":
-        sorted_list = insertionsort.sort(sub_list, cmpVideosByViews)
-
-    elif sorting_algorithm == "MERGE":
-        sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
-
-    elif sorting_algorithm == "QUICK":
-        sorted_list = quicksort.sort(sub_list, cmpVideosByViews)
 
 
     stop_time = time.process_time()

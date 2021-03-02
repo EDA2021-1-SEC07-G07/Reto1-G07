@@ -44,11 +44,11 @@ def printMenu():
     print("0- Salir de la aplicación.")
 
 
-def initCatalog(list_type):
+def initCatalog():
     """
     Inicializa el catalogo de videos
     """
-    return controller.initCatalog(list_type)
+    return controller.initCatalog()
 
 def loadData(catalog):
     """
@@ -95,29 +95,6 @@ def FirstVideoData(catalog):
 
     return (title, channel_title, trending_date, country, views, likes, dislikes)
 
-def askListType():
-    """Le pregunta al usuario respecto al tipo de lista que este desee usar."""
-
-    list_type = None
-
-    print("Elija con que tipo de lista desea que se cargue el catálogo de videos:\n")
-    print("1- Array List")
-    print("2- Single Linked List")
-
-    seleccion_lista = input('Seleccione una opción para continuar\n')
-
-    if int(seleccion_lista[0]) == 1:
-        
-        list_type = "ARRAY_LIST"
-
-    elif int(seleccion_lista[0]) == 2:
-
-        list_type = "LINKED_LIST"
-
-    else:
-        sys.exit(0)
-
-    return list_type
 
 
 def askSampleList(catalog):
@@ -134,77 +111,25 @@ def askSampleList(catalog):
     return int(n_sample)
 
 
-def askSortingAlgorithm():
-    """Le pregunta al usuario respecto a que tipo de algoritmo de ordenamiento desea usar."""
 
-    sorting_algorithm = None
-
-
-    print("¿Con que tipo de algoritmo desea realizar su búsqueda?")
-    print("1- Algoritmo Iterativo")
-    print("2- Algoritmo Recursivo")
-    tipo_algoritmo = input('Seleccione una opción para continuar\n')
-
-    if int(tipo_algoritmo[0]) == 1:
-
-        print("Elija con que algoritmo de ordenamiento iterativo desea realizar su busqueda:\n")
-        print("1- Selection Sort")
-        print("2- Insertion Sort")
-        print("3- Shell Sort")
-
-        seleccion_algoritmo = input('Seleccione una opción para continuar\n')
-        if int( seleccion_algoritmo[0]) == 1:
-
-            sorting_algorithm = "SELECTION"
-
-        elif int(seleccion_algoritmo[0]) == 2:
-
-            sorting_algorithm = "INSERTION"
-
-        elif int(seleccion_algoritmo[0]) == 3:
-
-            sorting_algorithm = "SHELL"
-
-        else:
-            sys.exit(0)
-
-
-    elif int(tipo_algoritmo[0]) == 2:
-        print("Elija con que algoritmo de ordenamiento recursivo desea realizar su busqueda:\n")
-        print("1- Merge Sort")
-        print("2- Quick Sort")
-        seleccion_algoritmo = input('Seleccione una opción para continuar\n')
-
-        if int( seleccion_algoritmo[0]) == 1:
-            sorting_algorithm = "MERGE"
-
-        elif int(seleccion_algoritmo[0]) == 2:
-            sorting_algorithm = "QUICK"
-
-        else:
-            sys.exit(0)
-
-    return sorting_algorithm
-
-
-def sortVideos(catalog, size, sorting_algorithm):
+def sortVideos(catalog, size):
     """
-    Organiza los videos bajo un algoritmo determinado
+    Organiza los videos mediante Merge Sort
     """
-    return controller.sortVideos(catalog, size, sorting_algorithm)
+    return controller.sortVideos(catalog, size)
 
 
 def filterCategory(catalog):
     """Le pregunta al usuario bajo que categoría desea filtrar los algoritmos."""
 
 
-    filter_category = input("Ingrese el nombre de la categoria con la que desea filtrar sus datos: ")
+    filter_category = input("Ingrese el nombre de la categoria con la que desea filtrar sus datos: ").lower()
 
     for category in lt.iterator(catalog['categories']):
 
-        if filter_category == category["name"].strip():
+        if filter_category == category["name"].strip().lower():
 
-            return filter_category
+            return category["name"].strip()
 
     print("Este no es el nombre de una categoría existente. Intente de nuevo.")
     filterCategory(catalog)
@@ -217,9 +142,35 @@ def filterCountry(catalog):
 
     return filter_country
 
-def printResultsReq1():
-    pass
+def printResultsReq1(video_list, n_sample):
 
+    a="1. trending_date"
+    b="2. title"
+    c = "3. channel_title"
+    d = "4. publish_time"
+    e = "5. views"
+    f = "6. likes"
+    g = "7. dislikes"
+    
+    formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),g.center(10))+("-"*130)+"\n"
+
+    texto="\n"+formato
+    
+    size = lt.size(video_list)
+
+    if size > n_sample:
+        print("Los primeros ", n_sample, " videos ordenados por número de visitas son:")
+        i=1
+        while i <= n_sample:
+            video = lt.getElement(video_list, i)
+
+            formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(video["trending_date"].center(6),video["title"].center(6), video["channel_title"].center(6), video["publish_time"].center(6), video["views"].center(6), video["likes"].center(6), video["dislikes"].center(6))+("-"*130)+"\n"
+
+            texto+=formato
+
+            i+=1
+
+    print(texto)
 
 """
 Menu principal
@@ -229,10 +180,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
 
-        list_type = askListType()
-
         print("Cargando información de los archivos ....\n") 
-        catalog = initCatalog(list_type)
+        catalog = initCatalog()
         loadData(catalog)
 
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
@@ -254,18 +203,9 @@ while True:
 
         n_sample = askSampleList(filtered_catalog)
 
-        sorting_algorithm = askSortingAlgorithm()
-
-    
-        print("Buscando el top {} de videos tendencia con más views organizados mediante {} SORTING...".format(n_sample, sorting_algorithm))
-
-        top_views = sortVideos(filtered_catalog, n_sample, sorting_algorithm)
+        top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
         
-        execution_time = top_views[0]
-       
-        print("El tiempo total de ejecución con el algoritmo {} SORT y el tipo de lista {} fue de: {} ms".format(sorting_algorithm, list_type,execution_time))
-        
-
+        printResultsReq1(top_views[1], n_sample)
 
     else:
         sys.exit(0)
