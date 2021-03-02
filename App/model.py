@@ -67,55 +67,57 @@ def newCatalog(list_type):
 
 def addVideo(catalog, video):
     
-    # Se adiciona el video a la lista de videos
-    lt.addLast(catalog['videos'], video)
-    # Se obtienen los id's de las categorías relacionadas al video
-    categories_ids = video['category_id'].split(",")
-    # Cada categoría, se crea en la lista de videos del catalogo, y se
-    # crea un video en la lista de dicha categoría (apuntador al video)
+    # Se modifica el video antes de que este sea añadido al catalogo principal
+    #Esto con el objetivo de añadirle una columna que indique el nombre de su categoría
+    video = addVideoCategory(catalog, video)
 
-    """
-    for category_id in categories_ids:
-        addVideoCategory(catalog, category_id.strip(), video)
-    """
+    # Se adiciona el video modificado a la lista de videos
+    lt.addLast(catalog['videos'], video)
+
+
+
         
 def addCategory(catalog, category):
     """
     Adiciona unas category a la lista de categories
     """
-
     t=newCategory(category["name"], category["id"])
     lt.addLast(catalog["categories"], t)
 
-def addVideoCategory(catalog, video_category):
+def addVideoCategory(catalog, video):
 
-    t= newVideoCategory(video_category["category_id"], video_category["video_category_id"])
-    lt.addLast(catalog["videos_categories"], t)
+    video_category = newVideoCategory(catalog["categories"], video)
+    video["category_name"] = video_category
+    return video
 
 
 # Funciones para creacion de datos
 
 def newCategory(name, id):
     """
-    Esta estructura almancena las categories utilizados para marcar videos.
+    Esta estructura almancena las categories utilizadas para marcar videos.
     """
 
-    category={"name":"", " category_id": ""}
+    category={}
     category["name"]=name
     category["category_id"]=id
     return category
 
 
-def newVideoCategory(category_id,video_category_id):
+def newVideoCategory(catalog_category, video):
     """
     Esta estructura crea una relación entre un tag y
     los libros """
 
+    category_id = video["category_id"]
 
-    video_category={"category_id":category_id , "video_category_id": video_category_id}
+    for category_dict in lt.iterator(catalog_category):
+        
+        if category_dict["category_id"] == category_id:
 
+            category_name = category_dict["name"]
 
-    return video_category
+    return  category_name
 
 
 # Funciones para creacion de datos
