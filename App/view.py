@@ -193,6 +193,34 @@ def sortVideos(catalog, size, sorting_algorithm):
     """
     return controller.sortVideos(catalog, size, sorting_algorithm)
 
+
+def filterCategory(catalog):
+    """Le pregunta al usuario bajo que categoría desea filtrar los algoritmos."""
+
+
+    filter_category = input("Ingrese el nombre de la categoria con la que desea filtrar sus datos: ")
+
+    for category in lt.iterator(catalog['categories']):
+
+        if filter_category == category["name"].strip():
+
+            return filter_category
+
+    print("Este no es el nombre de una categoría existente. Intente de nuevo.")
+    filterCategory(catalog)
+
+
+def filterCountry(catalog):
+    """Le pregunta al usuario bajo que país desea filtrar los algoritmos."""
+
+    filter_country = input("Ingrese el nombre del país con el que desea filtrar sus datos: ")
+
+    return filter_country
+
+def printResultsReq1():
+    pass
+
+
 """
 Menu principal
 """
@@ -219,17 +247,25 @@ while True:
 
     elif int(inputs[0]) == 2:
 
-        n_sample = askSampleList(catalog)
+        filter_category = filterCategory(catalog)
+        filter_country = filterCountry(catalog)
+
+        filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", column_2 = "country", value_1 = filter_category, value_2 = filter_country)
+
+        n_sample = askSampleList(filtered_catalog)
 
         sorting_algorithm = askSortingAlgorithm()
+
     
         print("Buscando el top {} de videos tendencia con más views organizados mediante {} SORTING...".format(n_sample, sorting_algorithm))
 
-        top_views = sortVideos(catalog, n_sample, sorting_algorithm)
+        top_views = sortVideos(filtered_catalog, n_sample, sorting_algorithm)
         
         execution_time = top_views[0]
        
         print("El tiempo total de ejecución con el algoritmo {} SORT y el tipo de lista {} fue de: {} ms".format(sorting_algorithm, list_type,execution_time))
+        
+
 
     else:
         sys.exit(0)

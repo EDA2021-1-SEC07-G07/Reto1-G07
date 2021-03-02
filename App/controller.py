@@ -85,3 +85,8 @@ def sortVideos(catalog, size, sorting_algorithm):
 
 
 # Funciones de consulta sobre el catálogo
+def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
+    """Filtra el catalogo dejando solo los videos con el valor especificado para máximo 2 columnas."""
+
+    filtered_catalog = model.filterCatalog(catalog, column_1, value_1, column_2, value_2)
+    return filtered_catalog

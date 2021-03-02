@@ -75,8 +75,6 @@ def addVideo(catalog, video):
     lt.addLast(catalog['videos'], video)
 
 
-
-        
 def addCategory(catalog, category):
     """
     Adiciona unas category a la lista de categories
@@ -89,6 +87,7 @@ def addVideoCategory(catalog, video):
     video_category = newVideoCategory(catalog["categories"], video)
     video["category_name"] = video_category
     return video
+
 
 
 # Funciones para creacion de datos
@@ -120,10 +119,47 @@ def newVideoCategory(catalog_category, video):
     return  category_name
 
 
-# Funciones para creacion de datos
-
 
 # Funciones de consulta
+
+def getVideosbyCategory(catalog, category_name):
+    """
+    Retorna el set de videos identificado con el nombre de categoría ingresado
+    """
+
+    videos = catalog['videos']
+    filtered_videos = lt.newList()
+
+    for video in lt.iterator(videos):
+        
+        if video["category_name"] == category_name:
+
+            lt.addLast(filtered_videos, video)
+    
+    return filtered_videos
+
+
+def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
+    """Filtra el catalogo dejando solo los videos con el valor especificado para máximo 2 columnas.
+        determinadas."""
+
+
+    filtered_catalog = lt.newList()
+    filtered_catalog["videos"] = lt.newList()
+
+    for video in lt.iterator(catalog['videos']):
+        
+        if column_2 is not None:  
+            
+            if video[column_1] == " "+value_1 and video[column_2] == value_2:
+    
+                lt.addLast(filtered_catalog["videos"], video)
+        else:
+            if video[column_1] == value_1:
+                lt.addLast(filtered_catalog["videos"], video)
+          
+   
+    return filtered_catalog
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpVideosByViews(video1, video2):
