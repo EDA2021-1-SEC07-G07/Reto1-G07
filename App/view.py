@@ -25,7 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-
+from time import sleep
 
 """
 La vista se encarga de la interacción con el usuario
@@ -106,6 +106,7 @@ def askSampleList(catalog):
         
         print("El número de muestra ha superado el tamaño de la lista, se procederá con la cantidad máxima de videos dentro del catálogo: {}".format(lt.size(catalog['videos'])))
 
+        sleep(5)
         n_sample = lt.size(catalog['videos'])-1
         
     return int(n_sample)
