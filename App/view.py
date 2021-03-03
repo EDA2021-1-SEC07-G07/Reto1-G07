@@ -106,7 +106,7 @@ def askSampleList(catalog):
         
         print("El número de muestra ha superado el tamaño de la lista, se procederá con la cantidad máxima de videos dentro del catálogo: {}".format(lt.size(catalog['videos'])))
 
-        n_sample = lt.size(catalog['videos'])
+        n_sample = lt.size(catalog['videos'])-1
         
     return int(n_sample)
 
