@@ -56,6 +56,7 @@ def newCatalog(list_type = "ARRAY_LIST"):
     catalog["id_videos"]=lt.newList(list_type,None)
     catalog["categories"]=lt.newList(list_type,None)
     catalog["videos_categories"]=lt.newList(list_type)
+    catalog["countries"]=lt.newList(list_type,None)
     return catalog
 
 
@@ -71,6 +72,11 @@ def addVideo(catalog, video):
     # Se adiciona el video modificado a la lista de videos
     lt.addLast(catalog['videos'], video)
 
+    #Se agrega el pais una vez a la lista countries
+    country = video["country"]
+
+    if lt.isPresent(catalog["countries"], country) == 0:
+        lt.addLast(catalog["countries"], country)
 
 def addCategory(catalog, category):
     """

@@ -133,7 +133,7 @@ def filterCategory(catalog):
             return category["name"].strip()
 
     print("Este no es el nombre de una categoría existente. Intente de nuevo.")
-    filterCategory(catalog)
+    return filterCategory(catalog)
 
 
 def filterCountry(catalog):
@@ -141,7 +141,12 @@ def filterCountry(catalog):
 
     filter_country = input("Ingrese el nombre del país con el que desea filtrar sus datos: ")
 
-    return filter_country
+    if filter_country in lt.iterator(catalog["countries"]):
+            
+        return filter_country
+    
+    print("El país que has ingresado no ha sido identificado en la base de datos. Intentalo de nuevo.")
+    return filterCountry(catalog)
 
 def printResultsReq1(video_list, n_sample):
 
@@ -176,39 +181,48 @@ def printResultsReq1(video_list, n_sample):
 """
 Menu principal
 """
-while True:
-    printMenu()
-    inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+def MainMenu():
 
-        print("Cargando información de los archivos ....\n") 
-        catalog = initCatalog()
-        loadData(catalog)
+    try:
+        while True:
+            printMenu()
+            inputs = input('Seleccione una opción para continuar\n')
+            if int(inputs[0]) == 1:
 
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
-        
-        print("Información del primer video cargado:  ")
-        print("| Título: {} | Nombre del canal: {} | Fecha en tendencia: {} | País: {} | Visitas: {} | Likes: {} | Dislikes: {}\n".format(*FirstVideoData(catalog)))
+                print("Cargando información de los archivos ....\n") 
+                catalog = initCatalog()
+                loadData(catalog)
 
-        print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
-        show_categories(catalog)
+                print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
+                
+                print("Información del primer video cargado:  ")
+                print("| Título: {} | Nombre del canal: {} | Fecha en tendencia: {} | País: {} | Visitas: {} | Likes: {} | Dislikes: {}\n".format(*FirstVideoData(catalog)))
+
+                print('Categorías cargadas: ' + str(lt.size(catalog["categories"])))
+                show_categories(catalog)
 
 
+            
+            elif int(inputs[0]) == 2:
 
-    elif int(inputs[0]) == 2:
+                filter_category = filterCategory(catalog)
+                filter_country = filterCountry(catalog)
 
-        filter_category = filterCategory(catalog)
-        filter_country = filterCountry(catalog)
+                filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", column_2 = "country", value_1 = filter_category, value_2 = filter_country)
 
-        filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", column_2 = "country", value_1 = filter_category, value_2 = filter_country)
+                n_sample = askSampleList(filtered_catalog)
 
-        n_sample = askSampleList(filtered_catalog)
+                top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
+                
+                printResultsReq1(top_views[1], n_sample)
 
-        top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
-        
-        printResultsReq1(top_views[1], n_sample)
+            elif int(inputs[0]) == 0:
+                sys.exit(0)
 
-    else:
-        sys.exit(0)
-sys.exit(0)
+    except Exception:
+        print("No ha cargado la base de datos. Intentelo de nuevo.")
+        MainMenu()
+    sys.exit(0)
 
+
+MainMenu()
