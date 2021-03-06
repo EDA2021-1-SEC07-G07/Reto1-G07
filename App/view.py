@@ -120,6 +120,14 @@ def sortVideos(catalog, size):
     return controller.sortVideos(catalog, size)
 
 
+def sortVideosByDays(catalog, size):
+    """
+    Organiza los videos mediante Merge Sort
+    """
+    return controller.sortVideosByDays(catalog, size)
+
+
+
 def filterCategory(catalog):
     """Le pregunta al usuario bajo que categoría desea filtrar los algoritmos."""
 
@@ -178,6 +186,31 @@ def printResultsReq1(video_list, n_sample):
 
     print(texto)
 
+
+def printResultsReq2(videos, dias):
+    a = "title"
+    b = "channel_title"
+    c = "country"
+    d = "Días"
+
+    formato="|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10))+("-"*60)+"\n"
+    texto="\n"+formato
+        
+   
+    print("Los videos que más han permanecido en tendencias son: \n")
+
+    for video in lt.iterator(videos):
+
+        formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["country"].center(6), dias.center(6))+("-"*60)+"\n"
+
+        texto+=formato
+
+
+    print(texto)
+
+
+
+    
 """
 Menu principal
 """
@@ -216,10 +249,40 @@ def MainMenu():
                 
                 printResultsReq1(top_views[1], n_sample)
 
+            elif int(inputs[0]) == 3:
+                filter_country = filterCountry(catalog)
+                filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)
+                    
+                max_videos = lt.newList()
+
+                unique_catalog = controller.initUniqueCatalog(filtered_catalog)
+
+                top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
+
+
+                first_video = lt.firstElement(top_days[1])
+
+                max_days = first_video[0]
+
+                pos = 1
+
+                while lt.getElement(top_days[1], pos)[0] == max_days:
+
+                    lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
+                    pos += 1
+
+                printResultsReq2(max_videos, str(max_days))
+
+
+
             elif int(inputs[0]) == 0:
+
+
+            
                 sys.exit(0)
 
     except Exception:
+        raise Exception
         print("No ha cargado la base de datos. Intentelo de nuevo.")
         MainMenu()
     sys.exit(0)

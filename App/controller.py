@@ -38,6 +38,13 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
+def initUniqueCatalog(catalog):
+
+    """
+    Llama la funcion de inicializacion del catalogo único del modelo.
+    """
+    unique_catalog = model.newUniqueCatalog(catalog)
+    return unique_catalog
 
 # Funciones para la carga de datos
 
@@ -82,6 +89,12 @@ def sortVideos(catalog, size):
     Ordena los videos por número de views
     """
     return model.sortVideos(catalog, size)
+
+def sortVideosByDays(catalog, size):
+    """
+    Ordena los videos por número de dias en tendencia
+    """
+    return model.sortVideosByDays(catalog, size)
 
 
 # Funciones de consulta sobre el catálogo

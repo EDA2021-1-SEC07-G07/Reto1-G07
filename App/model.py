@@ -78,6 +78,7 @@ def addVideo(catalog, video):
     if lt.isPresent(catalog["countries"], country) == 0:
         lt.addLast(catalog["countries"], country)
 
+
 def addCategory(catalog, category):
     """
     Adiciona unas category a la lista de categories
@@ -120,6 +121,43 @@ def newVideoCategory(catalog_category, video):
             category_name = category_dict["name"]
 
     return  category_name
+
+def newUniqueCatalog(catalog):
+
+    unique_dict = {"videos": None}
+    unique_dict["videos"] = {}
+
+    unique_catalog = lt.newList("ARRAY_LIST")
+
+    pos = 0
+
+    for video in lt.iterator(catalog["videos"]):
+
+        pos += 1
+        try:    
+
+            video_info = unique_dict["videos"][video["video_id"]]
+
+            new_day = lt.getElement(video_info, 1) + 1
+
+            lt.changeInfo(video_info, 1, new_day)
+
+        except: 
+
+            unique_dict["videos"][video["video_id"]] = lt.newList("ARRAY_LIST")
+        
+            lt.addLast(unique_dict["videos"][video["video_id"]], 1)
+
+            lt.addLast(unique_dict["videos"][video["video_id"]], pos)
+
+            lt.addLast(unique_dict["videos"][video["video_id"]], video)
+
+
+    for i in unique_dict["videos"]:
+        lt.addLast(unique_catalog, unique_dict["videos"][i]["elements"])
+
+
+    return unique_catalog
 
 
 
@@ -174,6 +212,16 @@ def cmpVideosByViews(video1, video2):
     """
     return (float(video1['views']) > float(video2['views']))
 
+def cmpVideosByDays(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'views' de video1 son menores que los del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'views'
+    video2: informacion del segundo video que incluye su valor 'views'
+    """
+    return (float(video1[0]) > float(video2[0]))
+
+
 
 # Funciones de ordenamiento
 
@@ -185,6 +233,18 @@ def sortVideos(catalog, size):
     sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
 
 
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list
+
+
+def sortVideosByDays(catalog, size):
+    sub_list = lt.subList(catalog, 1, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+
+    sorted_list = mergesort.sort(sub_list, cmpVideosByDays)
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
