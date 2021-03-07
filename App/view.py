@@ -127,13 +127,13 @@ def sortVideosByDays(catalog, size):
     return controller.sortVideosByDays(catalog, size)
 
 
+# Pasar a model
 
 def filterCategory(catalog):
     """Le pregunta al usuario bajo que categoría desea filtrar los algoritmos."""
 
 
     filter_category = input("Ingrese el nombre de la categoria con la que desea filtrar sus datos: ").lower()
-
     for category in lt.iterator(catalog['categories']):
 
         if filter_category == category["name"].strip().lower():
@@ -152,7 +152,6 @@ def filterCountry(catalog):
     if filter_country in lt.iterator(catalog["countries"]):
             
         return filter_country
-    
     print("El país que has ingresado no ha sido identificado en la base de datos. Intentalo de nuevo.")
     return filterCountry(catalog)
 
@@ -204,14 +203,31 @@ def printResultsReq2(videos, dias):
         formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["country"].center(6), dias.center(6))+("-"*60)+"\n"
 
         texto+=formato
-
-
     print(texto)
 
-def requerimiento_3():
-    print("Requerimiento 3")
-    pass
 
+
+def requerimiento_3(catalog):
+    print("Requerimiento 3")
+
+    filter_category =" " + filterCategory(catalog)
+    filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", value_1 = filter_category)
+        
+    max_videos = lt.newList()
+    unique_catalog = controller.initUniqueCatalog(filtered_catalog)
+    top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
+
+
+    first_video = lt.firstElement(top_days[1])
+    max_days = first_video[0]
+    pos = 1
+
+    while lt.getElement(top_days[1], pos)[0] == max_days:
+
+        lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
+        pos += 1
+
+    printResultsReq2(max_videos, str(max_days))
     
 """
 Menu principal
@@ -274,9 +290,9 @@ def MainMenu():
                     pos += 1
 
                 printResultsReq2(max_videos, str(max_days))
-
+            
             elif int(inputs[0])==4:
-                requerimiento_3()
+                requerimiento_3(catalog)
 
 
             elif int(inputs[0]) == 0:
