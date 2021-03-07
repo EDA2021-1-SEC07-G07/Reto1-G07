@@ -233,8 +233,45 @@ def printResultsReq4(list_videos, n_sample):
         print(video["title"], video["likes"], "\n",video["dislikes"], "\n", video["publish_time"])
  
 
+def requerimiento_1(catalog):
+    
+    filter_category = filterCategory(catalog)
+    filter_country = filterCountry(catalog)
+
+    filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", column_2 = "country", value_1 = filter_category, value_2 = filter_country)
+
+    n_sample = askSampleList(filtered_catalog)
+
+    top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
+    
+    printResultsReq1(top_views[1], n_sample)
+
+def requerimiento_2(catalog):
+
+    filter_country = filterCountry(catalog)
+    filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)
+        
+    max_videos = lt.newList()
+
+    unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
+
+    top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
+
+
+    first_video = lt.firstElement(top_days[1])
+
+    max_days = first_video[0]
+
+    pos = 1
+
+    while lt.getElement(top_days[1], pos)[0] == max_days:
+
+        lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
+        pos += 1
+
+    printResultsReq2(max_videos, str(max_days))
+
 def requerimiento_3(catalog):
-    print("Requerimiento 3")
 
     filter_category =" " + filterCategory(catalog)
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", value_1 = filter_category)
@@ -296,41 +333,11 @@ def MainMenu():
 
             
             elif int(inputs[0]) == 2:
+                requerimiento_1(catalog)
 
-                filter_category = filterCategory(catalog)
-                filter_country = filterCountry(catalog)
-
-                filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", column_2 = "country", value_1 = filter_category, value_2 = filter_country)
-
-                n_sample = askSampleList(filtered_catalog)
-
-                top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
-                
-                printResultsReq1(top_views[1], n_sample)
 
             elif int(inputs[0]) == 3:
-                filter_country = filterCountry(catalog)
-                filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)
-                    
-                max_videos = lt.newList()
-
-                unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
-
-                top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
-
-
-                first_video = lt.firstElement(top_days[1])
-
-                max_days = first_video[0]
-
-                pos = 1
-
-                while lt.getElement(top_days[1], pos)[0] == max_days:
-
-                    lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
-                    pos += 1
-
-                printResultsReq2(max_videos, str(max_days))
+                requerimiento_2(catalog)
             
             elif int(inputs[0])==4:
                 requerimiento_3(catalog)
