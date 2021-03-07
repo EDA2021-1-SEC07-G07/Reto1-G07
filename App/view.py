@@ -208,7 +208,9 @@ def printResultsReq2(videos, dias):
 
     print(texto)
 
-
+def requerimiento_3():
+    print("Requerimiento 3")
+    pass
 
     
 """
@@ -273,6 +275,8 @@ def MainMenu():
 
                 printResultsReq2(max_videos, str(max_days))
 
+            elif int(inputs[0])==4:
+                requerimiento_3()
 
 
             elif int(inputs[0]) == 0:
