@@ -101,15 +101,17 @@ def askSampleList(catalog):
     """Le pregunta al usuario respecto al tamaño de la muestra sobre la que se desea aplicar una función."""
 
     n_sample = input("Ingrese el tamaño de la muestra sobre la que desea indagar (recuerde que este no debe exceder la cantidad de videos en el catálogo): ")
+    try:
+        if int(n_sample) > lt.size(catalog['videos']):
+            
+            print("El número de muestra ha superado el tamaño de la lista, se procederá con la cantidad máxima de videos dentro del catálogo: {}".format(lt.size(catalog['videos'])))
 
-    if int(n_sample) > lt.size(catalog['videos']):
-        
-        print("El número de muestra ha superado el tamaño de la lista, se procederá con la cantidad máxima de videos dentro del catálogo: {}".format(lt.size(catalog['videos'])))
-
-        sleep(5)
-        n_sample = lt.size(catalog['videos'])-1
-        
-    return int(n_sample)
+            sleep(5)
+            n_sample = lt.size(catalog['videos'])-1
+            
+            return int(n_sample)
+    except:
+        return askSampleList
 
 
 
@@ -126,6 +128,13 @@ def sortVideosByDays(catalog, size):
     """
     return controller.sortVideosByDays(catalog, size)
 
+
+def sortVideosByLikes(catalog,size):
+    """
+    Organiza los videos mediante Merge Sort
+    """
+    return controller.sortVideosByLikes(catalog, size)
+    
 
 # Pasar a model
 
@@ -154,6 +163,14 @@ def filterCountry(catalog):
         return filter_country
     print("El país que has ingresado no ha sido identificado en la base de datos. Intentalo de nuevo.")
     return filterCountry(catalog)
+
+def filterTag(catalog):
+    """Le pregunta al usuario bajo que tag desea filtrar los algoritmos."""
+
+    tag=input("Ingrese el Tag con el cual desea filtrar el video")
+    filter_tag=controller.filterTag(catalog, tag)
+    
+    return filter_tag
 
 def printResultsReq1(video_list, n_sample):
 
@@ -206,6 +223,36 @@ def printResultsReq2(videos, dias):
     print(texto)
 
 
+def printResultsReq4(video_list, n_sample):
+
+    a="1. trending_date"
+    b="2. title"
+    c = "3. channel_title"
+    d = "4. publish_time"
+    e = "5. views"
+    f = "6. likes"
+    g = "7. dislikes"
+    
+    formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),g.center(10))+("-"*130)+"\n"
+
+    texto="\n"+formato
+    
+    size = lt.size(video_list)
+
+    if size > n_sample:
+        print("Los primeros ", n_sample, " videos ordenados por número de visitas son:")
+        i=1
+        while i <= n_sample:
+            video = lt.getElement(video_list, i)
+
+            formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(video["trending_date"].center(6),video["title"].center(6), video["tags"].center(6), video["publish_time"].center(6), video["views"].center(6), video["likes"].center(6), video["dislikes"].center(6))+("-"*130)+"\n"
+
+            texto+=formato
+
+            i+=1
+
+    print(texto)
+
 
 def requerimiento_3(catalog):
     print("Requerimiento 3")
@@ -228,7 +275,21 @@ def requerimiento_3(catalog):
         pos += 1
 
     printResultsReq2(max_videos, str(max_days))
+
+def requerimiento_4(catalog):
+    filter_country = filterCountry(catalog)                
+    filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)    
     
+    filter_tag=filterTag(filtered_catalog)
+    top_likes =sortVideosByLikes(filter_tag,lt.size(filter_tag))
+    n_sample = askSampleList(filter_tag)
+
+    printResultsReq4(top_likes[1], n_sample)
+
+
+    
+
+
 """
 Menu principal
 """
@@ -294,7 +355,8 @@ def MainMenu():
             elif int(inputs[0])==4:
                 requerimiento_3(catalog)
 
-
+            elif int(inputs[0])==5:
+                requerimiento_4(catalog)
             elif int(inputs[0]) == 0:
 
 

@@ -123,35 +123,21 @@ def newVideoCategory(catalog_category, video):
     return  category_name
 
 def newUniqueCatalog(catalog):
-
     unique_dict = {"videos": None}
     unique_dict["videos"] = {}
-
     unique_catalog = lt.newList("ARRAY_LIST")
-
     pos = 0
-
     for video in lt.iterator(catalog["videos"]):
-
         pos += 1
         try:    
-
             video_info = unique_dict["videos"][video["video_id"]]
-
             new_day = lt.getElement(video_info, 1) + 1
-
             lt.changeInfo(video_info, 1, new_day)
-
         except: 
-
             unique_dict["videos"][video["video_id"]] = lt.newList("ARRAY_LIST")
-        
             lt.addLast(unique_dict["videos"][video["video_id"]], 1)
-
             lt.addLast(unique_dict["videos"][video["video_id"]], pos)
-
             lt.addLast(unique_dict["videos"][video["video_id"]], video)
-
 
     for i in unique_dict["videos"]:
         lt.addLast(unique_catalog, unique_dict["videos"][i]["elements"])
@@ -202,6 +188,26 @@ def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
    
     return filtered_catalog
 
+
+def filterTag(catalog, tag):
+    filter_tags=lt.newList("ARRAY_LIST")
+    filter_tags["videos"]=lt.newList("ARRAY_LIST")
+
+    for video in lt.iterator(catalog['videos']):
+
+        video_tags=video["tags"].split("|")
+        
+        
+
+        for i in video_tags:
+            if tag in i:
+                lt.addLast(filter_tags["videos"], video)
+                break
+    return filter_tags
+
+
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpVideosByViews(video1, video2):
     """
@@ -221,19 +227,31 @@ def cmpVideosByDays(video1, video2):
     """
     return (float(video1[0]) > float(video2[0]))
 
-
+def cmpVideosByLikes(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'LIKES' de video1 son menores que los del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'LIKES'
+    video2: informacion del segundo video que incluye su valor 'LIKES'
+    """
+    return (float(video1["likes"]) > float(video2["likes"]))
 
 # Funciones de ordenamiento
+
+def sortVideosByLikes(catalog, size):
+    sub_list = lt.subList(catalog['videos'], 1, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    sorted_list = mergesort.sort(sub_list, cmpVideosByLikes)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list    
 
 def sortVideos(catalog, size):
     sub_list = lt.subList(catalog['videos'], 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-
     sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
-
-
-
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
@@ -243,9 +261,7 @@ def sortVideosByDays(catalog, size):
     sub_list = lt.subList(catalog, 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-
     sorted_list = mergesort.sort(sub_list, cmpVideosByDays)
-
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
