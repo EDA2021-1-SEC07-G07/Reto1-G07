@@ -166,7 +166,7 @@ def filterCountry(catalog):
 def filterTag(catalog):
     """Le pregunta al usuario bajo que tag desea filtrar los algoritmos."""
 
-    tag=input("Ingrese el Tag con el cual desea filtrar el video")
+    tag=input("Ingrese el Tag con el cual desea filtrar el video: ")
     filter_tag=controller.filterTag(catalog, tag)
     
     return filter_tag
@@ -222,43 +222,16 @@ def printResultsReq2(videos, dias):
     print(texto)
 
 
-def printResultsReq4(video_list, n_sample):
-
-    a="1. trending_date"
-    b="2. title"
-    c = "3. channel_title"
-    d = "4. publish_time"
-    e = "5. views"
-    f = "6. likes"
-    g = "7. dislikes"
+def printResultsReq4(list_videos, n_sample):
     
+
     for i in range(n_sample):
-        video = lt.getElement(video_list, i)
-        print(video)
+        
+        j = i+1
 
-    """
-
-
-    formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),g.center(10))+("-"*130)+"\n"
-
-    texto="\n"+formato
-    
-    size = lt.size(video_list)
-
-    if size > n_sample:
-        print("Los primeros ", n_sample, " videos ordenados por número de visitas son:")
-        i=1
-        while i <= n_sample:
-            video = lt.getElement(video_list, i)
-
-            formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(video["trending_date"].center(6),video["title"].center(6), video["tags"].center(6), video["publish_time"].center(6), video["views"].center(6), video["likes"].center(6), video["dislikes"].center(6))+("-"*130)+"\n"
-
-            texto+=formato
-
-            i+=1
-
-    print(texto)
-    """
+        video = lt.getElement(list_videos, j)[2]
+        print(video["title"], video["likes"], "\n",video["dislikes"], "\n", video["publish_time"])
+ 
 
 def requerimiento_3(catalog):
     print("Requerimiento 3")
@@ -267,7 +240,7 @@ def requerimiento_3(catalog):
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", value_1 = filter_category)
         
     max_videos = lt.newList()
-    unique_catalog = controller.initUniqueCatalog(filtered_catalog)
+    unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
     top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
 
 
@@ -287,10 +260,11 @@ def requerimiento_4(catalog):
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)    
     
     filter_tag=filterTag(filtered_catalog)
-    top_likes =sortVideosByLikes(filter_tag,lt.size(filter_tag))
+    top_likes =sortVideosByLikes(filter_tag,lt.size(filter_tag["videos"]))
+    unique_catalog = controller.initUniqueCatalog(top_likes[1])
     n_sample = askSampleList(filter_tag)
 
-    printResultsReq4(top_likes[1], n_sample)
+    printResultsReq4(unique_catalog, n_sample)
 
 
     
@@ -340,7 +314,7 @@ def MainMenu():
                     
                 max_videos = lt.newList()
 
-                unique_catalog = controller.initUniqueCatalog(filtered_catalog)
+                unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
 
                 top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
 

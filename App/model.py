@@ -127,7 +127,7 @@ def newUniqueCatalog(catalog):
     unique_dict["videos"] = {}
     unique_catalog = lt.newList("ARRAY_LIST")
     pos = 0
-    for video in lt.iterator(catalog["videos"]):
+    for video in lt.iterator(catalog):
         pos += 1
         try:    
             video_info = unique_dict["videos"][video["video_id"]]
@@ -203,6 +203,7 @@ def filterTag(catalog, tag):
             if tag in i:
                 lt.addLast(filter_tags["videos"], video)
                 break
+
     return filter_tags
 
 
