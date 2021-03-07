@@ -114,11 +114,11 @@ def askSampleList(catalog):
         return askSampleList(catalog)
 
 
-def sortVideos(catalog, size):
+def sortVideos(catalog, size, cmpFunction):
     """
     Organiza los videos mediante Merge Sort
     """
-    return controller.sortVideos(catalog, size)
+    return controller.sortVideos(catalog, size, cmpFunction)
 
 
 def sortVideosByDays(catalog, size):
@@ -234,7 +234,7 @@ def printResultsReq4(list_videos, n_sample):
  
 
 def requerimiento_1(catalog):
-    
+
     filter_category = filterCategory(catalog)
     filter_country = filterCountry(catalog)
 
@@ -242,7 +242,7 @@ def requerimiento_1(catalog):
 
     n_sample = askSampleList(filtered_catalog)
 
-    top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]))
+    top_views = sortVideos(filtered_catalog, lt.size(filtered_catalog["videos"]), "sortByViews")
     
     printResultsReq1(top_views[1], n_sample)
 
@@ -255,7 +255,7 @@ def requerimiento_2(catalog):
 
     unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
 
-    top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
+    top_days = sortVideos(unique_catalog, lt.size(unique_catalog), "sortByDays")
 
 
     first_video = lt.firstElement(top_days[1])
@@ -278,7 +278,7 @@ def requerimiento_3(catalog):
         
     max_videos = lt.newList()
     unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
-    top_days = sortVideosByDays(unique_catalog, lt.size(unique_catalog))
+    top_days = sortVideos(unique_catalog, lt.size(unique_catalog), "sortByDays")
 
 
     first_video = lt.firstElement(top_days[1])
@@ -297,7 +297,7 @@ def requerimiento_4(catalog):
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)    
     
     filter_tag=filterTag(filtered_catalog)
-    top_likes =sortVideosByLikes(filter_tag,lt.size(filter_tag["videos"]))
+    top_likes =sortVideos(filter_tag,lt.size(filter_tag["videos"]), "sortByLikes")
     unique_catalog = controller.initUniqueCatalog(top_likes[1])
     n_sample = askSampleList(filter_tag)
 

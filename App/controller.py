@@ -81,24 +81,12 @@ def loadVideos(catalog):
 
 # Funciones de ordenamiento
 
-def sortVideos(catalog, size):
+def sortVideos(catalog, size, cmpFunction):
     """
-    Ordena los videos por número de views
+    Ordena los videos por número de views, likes o days
     """
-    return model.sortVideos(catalog, size)
+    return model.sortVideos(catalog, size, cmpFunction)
 
-def sortVideosByDays(catalog, size):
-    """
-    Ordena los videos por número de dias en tendencia
-    """
-    return model.sortVideosByDays(catalog, size)
-
-
-def sortVideosByLikes(catalog, size):
-    """
-    Ordena los videos por número de likes
-    """
-    return model.sortVideosByLikes(catalog,size)
 
 # Funciones de consulta sobre el catálogo
 def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):

@@ -149,23 +149,6 @@ def newUniqueCatalog(catalog):
 
 # Funciones de consulta
 
-def getVideosbyCategory(catalog, category_name):
-    """
-    Retorna el set de videos identificado con el nombre de categoría ingresado
-    """
-
-    videos = catalog['videos']
-    filtered_videos = lt.newList("ARRAY_LIST")
-
-    for video in lt.iterator(videos):
-        
-        if video["category_name"] == category_name:
-
-            lt.addLast(filtered_videos, video)
-    
-    return filtered_videos
-
-
 def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
     """Filtra el catalogo dejando solo los videos con el valor especificado para máximo 2 columnas.
         determinadas."""
@@ -239,30 +222,32 @@ def cmpVideosByLikes(video1, video2):
 
 # Funciones de ordenamiento
 
-def sortVideosByLikes(catalog, size):
-    sub_list = lt.subList(catalog['videos'], 1, size)
-    sub_list = sub_list.copy()
-    start_time = time.process_time()
-    sorted_list = mergesort.sort(sub_list, cmpVideosByLikes)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, sorted_list    
+def sortVideos(catalog, size, cmpFunction):
 
-def sortVideos(catalog, size):
-    sub_list = lt.subList(catalog['videos'], 1, size)
-    sub_list = sub_list.copy()
-    start_time = time.process_time()
-    sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, sorted_list
+    if cmpFunction == "sortByViews":
+        sub_list = lt.subList(catalog['videos'], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg, sorted_list
 
+    elif cmpFunction == "sortByDays":
+        sub_list = lt.subList(catalog, 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list = mergesort.sort(sub_list, cmpVideosByDays)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg, sorted_list
 
-def sortVideosByDays(catalog, size):
-    sub_list = lt.subList(catalog, 1, size)
-    sub_list = sub_list.copy()
-    start_time = time.process_time()
-    sorted_list = mergesort.sort(sub_list, cmpVideosByDays)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, sorted_list
+    elif cmpFunction == "sortByLikes":
+
+        sub_list = lt.subList(catalog['videos'], 1, size)
+        sub_list = sub_list.copy()
+        start_time = time.process_time()
+        sorted_list = mergesort.sort(sub_list, cmpVideosByLikes)
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg, sorted_list    
