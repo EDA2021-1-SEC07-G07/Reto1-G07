@@ -223,15 +223,51 @@ def printResultsReq2(videos, dias):
 
 
 def printResultsReq4(list_videos, n_sample):
-    
-
     for i in range(n_sample):
-        
-        j = i+1
+        a = "title"
+        b= "channel_title"
+        c = "publish_time"
+        d="views"
+        e = "likes"
+        f = "dislikes"
+        g="tags"
 
-        video = lt.getElement(list_videos, j)[2]
-        print(video["title"], video["likes"], "\n",video["dislikes"], "\n", video["publish_time"])
- 
+        names_categories=[a,b,c,d,e,f,g]
+        video = lt.getElement(list_videos, i+1)[2]
+
+        title=video[a]
+        cannel_title=video[b]
+        publish_time= video[c]
+        views=video[d]
+        likes= video[e]
+        dislikes=video[f]
+        tags=video[g]
+
+
+        categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
+        size_label_categories=[]
+        for k in categories:
+            try:
+                size=len(k)
+                size_label_categories.append(size)
+            except:
+                pass
+
+        max_size=max(size_label_categories)
+        print(max_size)
+        upper="-"*(max_size+18)+"\n"
+        text=upper+"|{}|\n".format(("VIDEO"+str(i)).center(max_size))+upper
+       
+
+        for j in range(len(categories)):
+            a=str(names_categories[j]).center(15)
+            b=str(categories[j]).center(max_size)
+            value="|{}|{}|".format(a,b)
+            text+=value
+            text+=upper
+        text+="\n"*5
+
+        print(text)
 
 def requerimiento_1(catalog):
 
