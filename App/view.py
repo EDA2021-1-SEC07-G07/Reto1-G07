@@ -109,10 +109,9 @@ def askSampleList(catalog):
             sleep(5)
             n_sample = lt.size(catalog['videos'])-1
             
-            return int(n_sample)
+        return int(n_sample)
     except:
-        return askSampleList
-
+        return askSampleList(catalog)
 
 
 def sortVideos(catalog, size):
@@ -233,6 +232,13 @@ def printResultsReq4(video_list, n_sample):
     f = "6. likes"
     g = "7. dislikes"
     
+    for i in range(n_sample):
+        video = lt.getElement(video_list, i)
+        print(video)
+
+    """
+
+
     formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),g.center(10))+("-"*130)+"\n"
 
     texto="\n"+formato
@@ -252,7 +258,7 @@ def printResultsReq4(video_list, n_sample):
             i+=1
 
     print(texto)
-
+    """
 
 def requerimiento_3(catalog):
     print("Requerimiento 3")
@@ -357,6 +363,7 @@ def MainMenu():
 
             elif int(inputs[0])==5:
                 requerimiento_4(catalog)
+
             elif int(inputs[0]) == 0:
 
 
