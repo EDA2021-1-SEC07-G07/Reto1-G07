@@ -178,14 +178,11 @@ def filterTag(catalog, tag):
 
     for video in lt.iterator(catalog['videos']):
 
-        video_tags=video["tags"].split("|")
+        video_tags=video["tags"]
         
-        
-
-        for i in video_tags:
-            if tag in i:
-                lt.addLast(filter_tags["videos"], video)
-                break
+        if tag in video_tags:
+            lt.addLast(filter_tags["videos"], video)
+               
 
     return filter_tags
 

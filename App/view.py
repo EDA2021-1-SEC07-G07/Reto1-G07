@@ -304,7 +304,6 @@ def requerimiento_4(catalog):
     printResultsReq4(unique_catalog, n_sample)
 
 
-    
 
 
 """
