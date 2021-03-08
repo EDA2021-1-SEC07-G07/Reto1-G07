@@ -57,7 +57,9 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 def show_categories(catalog):
-    
+    """Función netamente de la view que imprime una lista con
+       todas las categorias al momento de cargar los datos."""
+
     a="Id"
     b="Nombre de Categoría"
     
@@ -82,7 +84,8 @@ def show_categories(catalog):
 
 
 def FirstVideoData(catalog):
-
+    """Función netamente de la view que imprime la información del
+        primer video al cargar el catalogo."""
    
     first_video = lt.firstElement(catalog["videos"])
     title =  first_video["title"]
@@ -110,7 +113,7 @@ def askSampleList(catalog):
             n_sample = lt.size(catalog['videos'])-1
             
         return int(n_sample)
-    except:
+    except Exception:
         return askSampleList(catalog)
 
 
@@ -172,6 +175,7 @@ def filterTag(catalog):
     return filter_tag
 
 def printResultsReq1(video_list, n_sample):
+    """Función netamente de la view encargada de imprimir los datos del requerimiento 1."""
 
     a="1. trending_date"
     b="2. title"
@@ -203,6 +207,8 @@ def printResultsReq1(video_list, n_sample):
 
 
 def printResultsReq2(videos, dias):
+    """Función netamente de la view encargada de imprimir los datos del requerimiento 2."""
+
     a = "title"
     b = "channel_title"
     c = "country"
@@ -223,6 +229,8 @@ def printResultsReq2(videos, dias):
 
 
 def printResultsReq3(videos, dias):
+    """Función netamente de la view encargada de imprimir los datos del requerimiento 3."""
+
     a = "title"
     b = "channel_title"
     c = "category_id"
@@ -242,6 +250,7 @@ def printResultsReq3(videos, dias):
     print(texto)
 
 def printResultsReq4(list_videos, n_sample):
+    """Función netamente de la view encargada de imprimir los datos del requerimiento 4."""
   
     a = "title"
     b= "channel_title"
@@ -266,6 +275,8 @@ def printResultsReq4(list_videos, n_sample):
     print(texto)
 
 def requerimiento_1(catalog):
+    """Función encargada de invocar las funciones del controller necesarias para ejecutar
+       el requerimiento 1."""
 
     filter_category = filterCategory(catalog)
     filter_country = filterCountry(catalog)
@@ -279,7 +290,8 @@ def requerimiento_1(catalog):
     printResultsReq1(top_views[1], n_sample)
 
 def requerimiento_2(catalog):
-
+    """Función encargada de invocar las funciones del controller necesarias para ejecutar
+       el requerimiento 2."""
     filter_country = filterCountry(catalog)
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)
         
@@ -304,7 +316,8 @@ def requerimiento_2(catalog):
     printResultsReq2(max_videos, str(max_days))
 
 def requerimiento_3(catalog):
-
+    """Función encargada de invocar las funciones del controller necesarias para ejecutar
+       el requerimiento 3."""
     filter_category =" " + filterCategory(catalog)
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "category_name", value_1 = filter_category)
         
@@ -328,6 +341,8 @@ def requerimiento_3(catalog):
         print("No existen videos de la categoría ingresada en tendencias.")
 
 def requerimiento_4(catalog):
+    """Función encargada de invocar las funciones del controller necesarias para ejecutar
+       el requerimiento 4."""
     filter_country = filterCountry(catalog)                
     filtered_catalog = controller.filterCatalog(catalog = catalog, column_1 = "country", value_1 = filter_country)    
     
@@ -339,12 +354,11 @@ def requerimiento_4(catalog):
     printResultsReq4(unique_catalog, n_sample)
 
 
-
-
 """
 Menu principal
 """
 def MainMenu():
+    """Menu Principal de la aplicación."""
 
     try:
         while True:
@@ -386,7 +400,6 @@ def MainMenu():
                 sys.exit(0)
 
     except Exception:
-        raise Exception
         print("No ha cargado la base de datos. Intentelo de nuevo.")
         MainMenu()
     sys.exit(0)

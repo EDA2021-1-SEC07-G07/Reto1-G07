@@ -50,8 +50,8 @@ def initUniqueCatalog(catalog):
 
 def loadData(catalog):
     """
-    Carga los datos de los archivos y cargar los datos en la
-    estructura de datos
+    Carga los datos de los archivos y carga los datos en la
+    estructura de datos (cateogrias y videos).
     """
     loadCategories(catalog)
     loadVideos(catalog)
@@ -60,7 +60,7 @@ def loadData(catalog):
 
 def loadCategories(catalog):
     """
-    Carga todas los categories del archivo y las agrega a la lista de categories
+    Carga todas los categories del archivo y las agrega a la lista de categories dentro del catalogo.
     """
 
     category_file=cf.data_dir +"category-id.csv"
@@ -83,7 +83,7 @@ def loadVideos(catalog):
 
 def sortVideos(catalog, size, cmpFunction):
     """
-    Ordena los videos por número de views, likes o days
+    Ordena los videos por número de views, likes o days.
     """
     return model.sortVideos(catalog, size, cmpFunction)
 
@@ -97,4 +97,5 @@ def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
 
 
 def filterTag(catalog, tag):
+    """Filtra el catalogo por tag (invoca al model para realizar esto)"""
     return model.filterTag(catalog,tag)

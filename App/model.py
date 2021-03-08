@@ -32,10 +32,6 @@ from DISClib.Algorithms.Sorting import mergesort
 
 assert cf
 
-"""
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
-los mismos.
-"""
 
 # Construccion de modelos
 
@@ -48,14 +44,10 @@ def newCatalog(list_type = "ARRAY_LIST"):
     """
 
     catalog={"videos":None,
-            "id_videos":None,
-            "categories": None,
-            "videos_categories":None, }
+            "categories": None}
 
     catalog["videos"]=lt.newList()
-    catalog["id_videos"]=lt.newList(list_type,None)
     catalog["categories"]=lt.newList(list_type,None)
-    catalog["videos_categories"]=lt.newList(list_type)
     catalog["countries"]=lt.newList(list_type,None)
     return catalog
 
@@ -64,6 +56,7 @@ def newCatalog(list_type = "ARRAY_LIST"):
 # Funciones para agregar informacion al catalogo
 
 def addVideo(catalog, video):
+    """Añade un video al catalogo principal."""
     
     # Se modifica el video antes de que este sea añadido al catalogo principal
     #Esto con el objetivo de añadirle una columna que indique el nombre de su categoría
@@ -81,12 +74,13 @@ def addVideo(catalog, video):
 
 def addCategory(catalog, category):
     """
-    Adiciona unas category a la lista de categories
+    Adiciona unas category a la lista de categories dentro del catalogo principal.
     """
     t=newCategory(category["name"], category["id"])
     lt.addLast(catalog["categories"], t)
 
 def addVideoCategory(catalog, video):
+    """Relaciona el nombre de una categoría con un ID y lo agrega el nombre como una nueva columna al video."""
 
     video_category = newVideoCategory(catalog["categories"], video)
     video["category_name"] = video_category
@@ -110,7 +104,7 @@ def newCategory(name, id):
 def newVideoCategory(catalog_category, video):
     """
     Esta estructura crea una relación entre un tag y
-    los libros """
+    los videos """
 
     category_id = video["category_id"]
 
@@ -123,6 +117,9 @@ def newVideoCategory(catalog_category, video):
     return  category_name
 
 def newUniqueCatalog(catalog):
+
+    """Genera un nuevo catálogo en el que cada video (por id invidual) solo se incluye una vez."""
+
     unique_dict = {"videos": None}
     unique_dict["videos"] = {}
     unique_catalog = lt.newList("ARRAY_LIST")
@@ -133,7 +130,10 @@ def newUniqueCatalog(catalog):
             video_info = unique_dict["videos"][video["video_id"]]
             new_day = lt.getElement(video_info, 1) + 1
             lt.changeInfo(video_info, 1, new_day)
-        except: 
+        except Exception: 
+
+            video_info = unique_dict["videos"][video["video_id"]]
+            
             unique_dict["videos"][video["video_id"]] = lt.newList("ARRAY_LIST")
             lt.addLast(unique_dict["videos"][video["video_id"]], 1)
             lt.addLast(unique_dict["videos"][video["video_id"]], pos)
@@ -173,6 +173,9 @@ def filterCatalog(catalog, column_1, value_1, column_2=None, value_2=None):
 
 
 def filterTag(catalog, tag):
+    """Filtra el catalogo obteniendo uno reducido en el que solo se incluyan los videos que
+       contengan el tag especificado."""
+
     filter_tags=lt.newList("ARRAY_LIST")
     filter_tags["videos"]=lt.newList("ARRAY_LIST")
 
@@ -203,8 +206,8 @@ def cmpVideosByDays(video1, video2):
     """
     Devuelve verdadero (True) si los 'views' de video1 son menores que los del video2
     Args:
-    video1: informacion del primer video que incluye su valor 'views'
-    video2: informacion del segundo video que incluye su valor 'views'
+    video1: informacion del primer video que incluye su valor de dias en la posición 0 
+    video2: informacion del segundo video que incluye su valor de dias en la posición 0 
     """
     return (float(video1[0]) > float(video2[0]))
 
@@ -220,6 +223,13 @@ def cmpVideosByLikes(video1, video2):
 # Funciones de ordenamiento
 
 def sortVideos(catalog, size, cmpFunction):
+    """Función que organiza una lista mediante Merge Sort. 
+
+    Parametros:
+        catalog: Catalogo a organizar
+        size: Tamaño del sub-catalogo que será organizado
+        cmpFunction: Nombre de la función de comparación a utilizar."""
+
 
     if cmpFunction == "sortByViews":
         sub_list = lt.subList(catalog['videos'], 1, size)
