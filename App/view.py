@@ -222,52 +222,48 @@ def printResultsReq2(videos, dias):
     print(texto)
 
 
+def printResultsReq3(videos, dias):
+    a = "title"
+    b = "channel_title"
+    c = "category_id"
+    d = "Días"
+
+    formato="|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10))+("-"*60)+"\n"
+    texto="\n"+formato
+        
+   
+    print("Los videos que más han permanecido en tendencias son: \n")
+
+    for video in lt.iterator(videos):
+
+        formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["category_id"].center(6), dias.center(6))+("-"*60)+"\n"
+
+        texto+=formato
+    print(texto)
+
 def printResultsReq4(list_videos, n_sample):
+  
+    a = "title"
+    b= "channel_title"
+    c = "publish_time"
+    d="views"
+    e = "likes"
+    f = "dislikes"
+    g="tags"
+
+
+    formato="|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),)+"\n"+"|{}|".format(g.center(10))+"\n"+("-"*60) +"\n"
+    texto="\n"+formato
+
+
     for i in range(n_sample):
-        a = "title"
-        b= "channel_title"
-        c = "publish_time"
-        d="views"
-        e = "likes"
-        f = "dislikes"
-        g="tags"
 
-        names_categories=[a,b,c,d,e,f,g]
         video = lt.getElement(list_videos, i+1)[2]
+        formato="|{}|{}|{}|{}|{}|{}|\n".format(video[a].center(6),video[b].center(6), video[c].center(6),video[d].center(6),video[e].center(6),video[f].center(6),)+"\n"+"|{}|".format(video[g].center(10))+"\n"+("-"*60) +"\n"
 
-        title=video[a]
-        cannel_title=video[b]
-        publish_time= video[c]
-        views=video[d]
-        likes= video[e]
-        dislikes=video[f]
-        tags=video[g]
+        texto += formato
 
-
-        categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
-        size_label_categories=[]
-        for k in categories:
-            try:
-                size=len(k)
-                size_label_categories.append(size)
-            except:
-                pass
-
-        max_size=max(size_label_categories)
-        print(max_size)
-        upper="-"*(max_size+18)+"\n"
-        text=upper+"|{}|\n".format(("VIDEO"+str(i)).center(max_size))+upper
-       
-
-        for j in range(len(categories)):
-            a=str(names_categories[j]).center(15)
-            b=str(categories[j]).center(max_size)
-            value="|{}|{}|".format(a,b)
-            text+=value
-            text+=upper
-        text+="\n"*5
-
-        print(text)
+    print(texto)
 
 def requerimiento_1(catalog):
 
@@ -316,17 +312,20 @@ def requerimiento_3(catalog):
     unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
     top_days = sortVideos(unique_catalog, lt.size(unique_catalog), "sortByDays")
 
+    if lt.size(top_days[1]) != 0:
+        first_video = lt.firstElement(top_days[1])
+        max_days = first_video[0]
+        pos = 1
 
-    first_video = lt.firstElement(top_days[1])
-    max_days = first_video[0]
-    pos = 1
+        
+        while lt.getElement(top_days[1], pos)[0] == max_days:
 
-    while lt.getElement(top_days[1], pos)[0] == max_days:
+            lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
+            pos += 1
 
-        lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
-        pos += 1
-
-    printResultsReq2(max_videos, str(max_days))
+        printResultsReq3(max_videos, str(max_days))
+    else:
+        print("No existen videos de la categoría ingresada en tendencias.")
 
 def requerimiento_4(catalog):
     filter_country = filterCountry(catalog)                
