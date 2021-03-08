@@ -272,7 +272,54 @@ def printResultsReq4(list_videos, n_sample):
 
         texto += formato
 
-    print(texto)
+        title=video[a]
+        cannel_title=video[b]
+        publish_time= video[c]
+        views=video[d]
+        likes= video[e]
+        dislikes=video[f]
+        tags=video[g]
+
+
+        categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
+        max_size=90
+        
+        upper="-"*(max_size+18)+"\n"
+        text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
+        size_var=max_size+17
+
+        for j in range(len(categories)):
+            if j<len(categories)-1:
+                a=str(names_categories[j]).center(15)
+                b=str(categories[j]).center(max_size)
+                value="|{}|{}|\n".format(a,b)
+            else:
+                a=str(names_categories[j]).center(size_var-1)
+                value="|{}|\n".format(a)
+                value+=upper
+                categorie=categories[j]
+                
+                tam=len(categorie)//size_var
+                pos=0
+                for k in range(tam+1):
+                    final=pos+size_var
+                    try:
+                        slide=categorie[pos:final]
+                    except:
+                        slide=categorie[pos:len(cannel_title)-1]
+                        slide=slide.center(size_var)
+                    value+="|{}|\n".format(slide)
+                    
+                    pos+=size_var
+
+                b=str(categories[j]).ljust(max_size)
+                
+            text+=value
+            text+=upper
+
+        text+="\n"*5
+
+        print(text)
 
 def requerimiento_1(catalog):
     """Función encargada de invocar las funciones del controller necesarias para ejecutar
