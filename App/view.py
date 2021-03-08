@@ -471,7 +471,6 @@ def MainMenu():
                 sys.exit(0)
 
     except Exception:
-        raise Exception
         print("No ha cargado la base de datos. Intentelo de nuevo.")
         MainMenu()
     sys.exit(0)

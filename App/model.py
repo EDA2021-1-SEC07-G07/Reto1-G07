@@ -118,7 +118,7 @@ def newVideoCategory(catalog_category, video):
 
 def newUniqueCatalog(catalog):
 
-    """Genera un nuevo catálogo en el que cada video (por id invidual) solo se incluye una vez."""
+    """Genera un nuevo catálogo en el que cada video (por título invidual) solo se incluye una vez."""
 
     unique_dict = {"videos": None}
     unique_dict["videos"] = {}
@@ -127,15 +127,15 @@ def newUniqueCatalog(catalog):
     for video in lt.iterator(catalog):
         pos += 1
         try:    
-            video_info = unique_dict["videos"][video["video_id"]]
+            video_info = unique_dict["videos"][video["title"]]
             new_day = lt.getElement(video_info, 1) + 1
             lt.changeInfo(video_info, 1, new_day)
         except Exception: 
             
-            unique_dict["videos"][video["video_id"]] = lt.newList("ARRAY_LIST")
-            lt.addLast(unique_dict["videos"][video["video_id"]], 1)
-            lt.addLast(unique_dict["videos"][video["video_id"]], pos)
-            lt.addLast(unique_dict["videos"][video["video_id"]], video)
+            unique_dict["videos"][video["title"]] = lt.newList("ARRAY_LIST")
+            lt.addLast(unique_dict["videos"][video["title"]], 1)
+            lt.addLast(unique_dict["videos"][video["title"]], pos)
+            lt.addLast(unique_dict["videos"][video["title"]], video)
 
     for i in unique_dict["videos"]:
         lt.addLast(unique_catalog, unique_dict["videos"][i]["elements"])
