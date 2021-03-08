@@ -245,26 +245,41 @@ def printResultsReq4(list_videos, n_sample):
 
 
         categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
-        size_label_categories=[]
-        for k in categories:
-            try:
-                size=len(k)
-                size_label_categories.append(size)
-            except:
-                pass
-
-        max_size=max(size_label_categories)
-        print(max_size)
+        max_size=90
+        
         upper="-"*(max_size+18)+"\n"
-        text=upper+"|{}|\n".format(("VIDEO"+str(i)).center(max_size))+upper
-       
+        text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
+        size_var=max_size+17
 
         for j in range(len(categories)):
-            a=str(names_categories[j]).center(15)
-            b=str(categories[j]).center(max_size)
-            value="|{}|{}|".format(a,b)
+            if j<len(categories)-1:
+                a=str(names_categories[j]).center(15)
+                b=str(categories[j]).center(max_size)
+                value="|{}|{}|\n".format(a,b)
+            else:
+                a=str(names_categories[j]).center(size_var-1)
+                value="|{}|\n".format(a)
+                value+=upper
+                categorie=categories[j]
+                
+                tam=len(categorie)//size_var
+                pos=0
+                for k in range(tam+1):
+                    final=pos+size_var
+                    try:
+                        slide=categorie[pos:final]
+                    except:
+                        slide=categorie[pos:len(cannel_title)-1]
+                        slide=slide.center(size_var)
+                    value+="|{}|\n".format(slide)
+                    
+                    pos+=size_var
+
+                b=str(categories[j]).ljust(max_size)
+                
             text+=value
             text+=upper
+
         text+="\n"*5
 
         print(text)
