@@ -131,8 +131,6 @@ def newUniqueCatalog(catalog):
             new_day = lt.getElement(video_info, 1) + 1
             lt.changeInfo(video_info, 1, new_day)
         except Exception: 
-
-            video_info = unique_dict["videos"][video["video_id"]]
             
             unique_dict["videos"][video["video_id"]] = lt.newList("ARRAY_LIST")
             lt.addLast(unique_dict["videos"][video["video_id"]], 1)

@@ -260,10 +260,7 @@ def printResultsReq4(list_videos, n_sample):
     f = "dislikes"
     g="tags"
 
-
-    formato="|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),)+"\n"+"|{}|".format(g.center(10))+"\n"+("-"*60) +"\n"
-    texto="\n"+formato
-
+    names_categories = [a,b,c,d,e,f,g]
 
     for i in range(n_sample):
 
@@ -447,6 +444,7 @@ def MainMenu():
                 sys.exit(0)
 
     except Exception:
+        raise Exception
         print("No ha cargado la base de datos. Intentelo de nuevo.")
         MainMenu()
     sys.exit(0)
