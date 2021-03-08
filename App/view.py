@@ -176,78 +176,110 @@ def filterTag(catalog):
 
 def printResultsReq1(video_list, n_sample):
     """Función netamente de la view encargada de imprimir los datos del requerimiento 1."""
-
-    a="1. trending_date"
-    b="2. title"
-    c = "3. channel_title"
-    d = "4. publish_time"
-    e = "5. views"
-    f = "6. likes"
-    g = "7. dislikes"
-    
-    formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),g.center(10))+("-"*130)+"\n"
-
-    texto="\n"+formato
-    
     size = lt.size(video_list)
-
+    
     if size > n_sample:
-        print("Los primeros ", n_sample, " videos ordenados por número de visitas son:")
-        i=1
-        while i <= n_sample:
-            video = lt.getElement(video_list, i)
+        for i in range(n_sample):
+            a="trending_date"
+            b="title"
+            c = "channel_title"
+            d = "publish_time"
+            e = "views"
+            f = "likes"
+            g = "dislikes"
+            
+            
+            video = lt.getElement(video_list, i+1)
+            names_categories=[a,b,c,d,e,f,g]
 
-            formato="|{}|{}|{}|{}|{}|{}|{}|\n".format(video["trending_date"].center(6),video["title"].center(6), video["channel_title"].center(6), video["publish_time"].center(6), video["views"].center(6), video["likes"].center(6), video["dislikes"].center(6))+("-"*130)+"\n"
+            trending_date=video[a]
+            title=video[b]
+            cannel_title=video[c]
+            publish_time= video[d]
+            views=video[e]
+            likes= video[f]
+            dislikes=video[g]
 
-            texto+=formato
 
-            i+=1
 
-    print(texto)
+            categories=[trending_date,title,cannel_title,publish_time, views,likes,dislikes]
+            max_size=80 #tamaño de impresion 
+            upper="-"*(max_size+18)+"\n"
+            text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
+            #size_var=max_size+17
+
+            for j in range(len(categories)):
+                a=str(names_categories[j]).center(15)
+                b=str(categories[j]).center(max_size)
+                value="|{}|{}|\n".format(a,b)
+                text+=value
+                text+=upper                    
+            text+="\n"*5
+            print(text)
+
+
+        
 
 
 def printResultsReq2(videos, dias):
     """Función netamente de la view encargada de imprimir los datos del requerimiento 2."""
-
-    a = "title"
-    b = "channel_title"
-    c = "country"
-    d = "Días"
-
-    formato="|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10))+("-"*60)+"\n"
-    texto="\n"+formato
-        
-   
-    print("Los videos que más han permanecido en tendencias son: \n")
-
+    i=0
     for video in lt.iterator(videos):
+        a = "title"
+        b = "channel_title"
+        c = "country"
+        d = "Días"
+        names_categories=[a,b,c,d]
+        title=video[a]
+        channel_title=video[b]
+        country=video[c]
 
-        formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["country"].center(6), dias.center(6))+("-"*60)+"\n"
+        categories=[title,channel_title,country,dias]
+        max_size=80 #tamaño de impresion 
+        upper="-"*(max_size+18)+"\n"
+        text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
+    
+        for j in range(len(categories)):
+            a=str(names_categories[j]).center(15)
+            b=str(categories[j]).center(max_size)
+            value="|{}|{}|\n".format(a,b)
+            text+=value
+            text+=upper                    
+        text+="\n"*3
+        i+=1
 
-        texto+=formato
-    print(texto)
+        print(text)
 
 
 def printResultsReq3(videos, dias):
-    """Función netamente de la view encargada de imprimir los datos del requerimiento 3."""
-
-    a = "title"
-    b = "channel_title"
-    c = "category_id"
-    d = "Días"
-
-    formato="|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10))+("-"*60)+"\n"
-    texto="\n"+formato
-        
-   
-    print("Los videos que más han permanecido en tendencias son: \n")
-
+    """Función netamente de la view encargada de imprimir los datos del requerimiento 2."""
+    i=0
     for video in lt.iterator(videos):
+        a = "title"
+        b = "channel_title"
+        c = "country"
+        d = "Días"
+        names_categories=[a,b,c,d]
+        title=video[a]
+        channel_title=video[b]
+        country=video[c]
 
-        formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["category_id"].center(6), dias.center(6))+("-"*60)+"\n"
+        categories=[title,channel_title,country,dias]
+        max_size=80 #tamaño de impresion 
+        upper="-"*(max_size+18)+"\n"
+        text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
+    
+        for j in range(len(categories)):
+            a=str(names_categories[j]).center(15)
+            b=str(categories[j]).center(max_size)
+            value="|{}|{}|\n".format(a,b)
+            text+=value
+            text+=upper                    
+        text+="\n"*3
+        i+=1
 
-        texto+=formato
-    print(texto)
+        print(text)
+
 
 def printResultsReq4(list_videos, n_sample):
     """Función netamente de la view encargada de imprimir los datos del requerimiento 4."""
@@ -274,7 +306,7 @@ def printResultsReq4(list_videos, n_sample):
 
 
         categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
-        max_size=90
+        max_size=70
 
         upper="-"*(max_size+18)+"\n"
         text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
