@@ -252,22 +252,17 @@ def printResultsReq3(videos, dias):
 def printResultsReq4(list_videos, n_sample):
     """Función netamente de la view encargada de imprimir los datos del requerimiento 4."""
   
-    a = "title"
-    b= "channel_title"
-    c = "publish_time"
-    d="views"
-    e = "likes"
-    f = "dislikes"
-    g="tags"
-
-    names_categories = [a,b,c,d,e,f,g]
-
     for i in range(n_sample):
+        a = "title"
+        b= "channel_title"
+        c = "publish_time"
+        d="views"
+        e = "likes"
+        f = "dislikes"
+        g="tags"
 
+        names_categories=[a,b,c,d,e,f,g]
         video = lt.getElement(list_videos, i+1)[2]
-        formato="|{}|{}|{}|{}|{}|{}|\n".format(video[a].center(6),video[b].center(6), video[c].center(6),video[d].center(6),video[e].center(6),video[f].center(6),)+"\n"+"|{}|".format(video[g].center(10))+"\n"+("-"*60) +"\n"
-
-        texto += formato
 
         title=video[a]
         cannel_title=video[b]
@@ -280,7 +275,7 @@ def printResultsReq4(list_videos, n_sample):
 
         categories=[title,cannel_title,publish_time, views,likes,dislikes,tags]
         max_size=90
-        
+
         upper="-"*(max_size+18)+"\n"
         text=upper+"|{}|\n".format(("VIDEO "+str(i+1)).center(max_size+16))+upper
         size_var=max_size+17
