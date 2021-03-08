@@ -222,18 +222,46 @@ def printResultsReq2(videos, dias):
     print(texto)
 
 
-def printResultsReq4(list_videos, n_sample):
-    for i in range(n_sample):
-        a = "title"
-        b= "channel_title"
-        c = "publish_time"
-        d="views"
-        e = "likes"
-        f = "dislikes"
-        g="tags"
+def printResultsReq3(videos, dias):
+    a = "title"
+    b = "channel_title"
+    c = "category_id"
+    d = "Días"
 
-        names_categories=[a,b,c,d,e,f,g]
+    formato="|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10))+("-"*60)+"\n"
+    texto="\n"+formato
+        
+   
+    print("Los videos que más han permanecido en tendencias son: \n")
+
+    for video in lt.iterator(videos):
+
+        formato="|{}|{}|{}|{}|\n".format(video["title"].center(6),video["channel_title"].center(6), video["category_id"].center(6), dias.center(6))+("-"*60)+"\n"
+
+        texto+=formato
+    print(texto)
+
+def printResultsReq4(list_videos, n_sample):
+  
+    a = "title"
+    b= "channel_title"
+    c = "publish_time"
+    d="views"
+    e = "likes"
+    f = "dislikes"
+    g="tags"
+
+
+    formato="|{}|{}|{}|{}|{}|{}|\n".format(a.center(10),b.center(10),c.center(10),d.center(10),e.center(10),f.center(10),)+"\n"+"|{}|".format(g.center(10))+"\n"+("-"*60) +"\n"
+    texto="\n"+formato
+
+
+    for i in range(n_sample):
+
         video = lt.getElement(list_videos, i+1)[2]
+        formato="|{}|{}|{}|{}|{}|{}|\n".format(video[a].center(6),video[b].center(6), video[c].center(6),video[d].center(6),video[e].center(6),video[f].center(6),)+"\n"+"|{}|".format(video[g].center(10))+"\n"+("-"*60) +"\n"
+
+        texto += formato
 
         title=video[a]
         cannel_title=video[b]
@@ -331,17 +359,20 @@ def requerimiento_3(catalog):
     unique_catalog = controller.initUniqueCatalog(filtered_catalog["videos"])
     top_days = sortVideos(unique_catalog, lt.size(unique_catalog), "sortByDays")
 
+    if lt.size(top_days[1]) != 0:
+        first_video = lt.firstElement(top_days[1])
+        max_days = first_video[0]
+        pos = 1
 
-    first_video = lt.firstElement(top_days[1])
-    max_days = first_video[0]
-    pos = 1
+        
+        while lt.getElement(top_days[1], pos)[0] == max_days:
 
-    while lt.getElement(top_days[1], pos)[0] == max_days:
+            lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
+            pos += 1
 
-        lt.addLast(max_videos, lt.getElement(top_days[1], pos)[2])
-        pos += 1
-
-    printResultsReq2(max_videos, str(max_days))
+        printResultsReq3(max_videos, str(max_days))
+    else:
+        print("No existen videos de la categoría ingresada en tendencias.")
 
 def requerimiento_4(catalog):
     filter_country = filterCountry(catalog)                
